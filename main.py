@@ -29,7 +29,7 @@ rows = run_query('select * from data21 where station = 11')
 df = pd.DataFrame(rows, columns = ['Station', 'pH', 'DO', 'Temp', 'NH4', 'NO3', 'COD', 'BOD', 'logDate', 'logTime'])
 st.write(df)
 df = df.astype({'logDate':'string', 'logTime': 'string'})
-st.write(df.dtypes)
+#st.write(df.dtypes)
 
 df.index = pd.DatetimeIndex(df['logDate'] + ' ' + df['logTime'])
 df = df.drop_duplicates(subset=['logTime', 'logDate'], keep='last')
@@ -43,8 +43,8 @@ for i in np.unique(df.index.date).astype('str'):
 
 df = df.fillna(0)
     
-def chart(d0,d1,param):
-    dfs = df.loc[d0 : d1, param]
+def chart(data, d0,d1,param):
+    dfs = data.loc[d0 : d1, param]
     #dfs.drop(dfs.tail(1).index,inplace=True)
     fig = px.line(dfs, x=[i+1 for i in range(int(len(dfs)/4))], y=[dfs.loc[dfs.index.hour.isin([0,1,2,3,4,5])], 
                                                     dfs.loc[dfs.index.hour.isin([6,7,8,9,10,11])], 
@@ -70,5 +70,5 @@ param = head4.selectbox('Parameter:', ('pH', 'DO', 'COD', 'BOD', 'NH4', 'NO3', '
 
 #import data from SQL Server
 
-komp = chart(d1, d2, param)
+komp = chart(df, d1, d2, param)
 st.plotly_chart(komp, theme='streamlit')
