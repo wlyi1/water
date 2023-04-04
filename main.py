@@ -16,7 +16,7 @@ conn = init_connection()
 def run_query(query):
     with conn.cursor() as cur:
         cur.execute(query)
-        return cur.fetch().items
+        return cur.fetchall()
 
 rows = run_query('select * from data21 where station = 11')
 
