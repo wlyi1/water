@@ -18,7 +18,7 @@ def run_query(query):
         cur.execute(query)
         return cur.fetchall()
 
-rows = run_query('select * from data 21 where station = 11')
+rows = run_query('select * from data21 where station = 11')
 
 for row in rows:
     st.write(f'{row[0]}')
