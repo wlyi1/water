@@ -16,8 +16,9 @@ conn = init_connection()
 def run_query(query):
     with conn.cursor() as cur:
         cur.execute(query)
-        return cur.fetchall()
+        return cur.fetch().items
 
 rows = run_query('select * from data21 where station = 11')
 
-st.write(pd.DataFrame(rows), columns = ['Station', 'pH', 'DO', 'Temp', 'NH4', 'NO3', 'COD', 'BOD', 'LogDate', 'LogTIme'])
+st.write(pd.DataFrame(rows))
+#columns = ['Station', 'pH', 'DO', 'Temp', 'NH4', 'NO3', 'COD', 'BOD', 'LogDate', 'LogTIme']
