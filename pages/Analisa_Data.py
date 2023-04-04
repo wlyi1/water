@@ -26,43 +26,49 @@ def predict(model, input):
     preds = predict_df['Label'][0]
     return preds
 
+@st.cache_resource
+def init_connection():
+    return snowflake.connector.connect(
+        **st.secrets["snowflake"], client_session_keep_alive=True
+    )
+
+conn = init_connection()
+
+@st.cache_data(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
+
 st.markdown("<h1 style='text-align: center;'>Sensor Failure Detection</h>", unsafe_allow_html=True)
 
 #import pre data
-files_id = pd.read_csv('id_stasiun.csv')
-
-data_24 = load('jam_24.npy', allow_pickle = True)
-df_nan = pd.read_csv('df_nan.csv')
-index = np.arange(1,25)
-df_test = pd.read_csv('testml.csv')
 
 col_id, col_tgl = st.columns(2)
-ID_choice = col_id.selectbox('Stasiun', files_id['CODE'])
-ID = files_id[files_id['CODE']==ID_choice].index.values + 11
+ID = col_id.selectbox('Stasiun', [11,12,13,14,15,16,17,18])
 tgl = col_tgl.date_input('Tanggal' , dt.date(2022,1,2))
 
 #import data from SQL Server
-conn_str = 'DRIVER={SQL Server};server=DESKTOP-ECB4MMH\SQLEXPRESS;Database=awrl;Trusted_Connection=yes;'
-con_url = URL.create('mssql+pyodbc', query={'odbc_connect': conn_str})
-engine = create_engine(con_url)
+rows = run_query('select * from data21 where station = 11')
 
-query = f"""select pH, DO, Cond, Turb, Temp, NH4,NO3,ORP,COD,BOD,TSS,logTime as NH3_N,logDate, datepart(hour, logTime) as logTime 
-from data where Station={int(ID)} order by logDate,logTime"""
+df = pd.DataFrame(rows, columns = ['Station', 'pH', 'DO', 'NH4', 'NO3', 'COD', 'BOD', 'logDate', 'logTime'])
+df = df.astype({'logDate':'string', 'logTime': 'string'})
+df.index = pd.DatetimeIndex(df['logDate'] + ' ' + df['logTime'])
+df = df.drop_duplicates(subset=['logTime', 'logDate'], keep='last')
+df = df.drop(columns=['logTime', 'logDate'])
 
-df = pd.read_sql(query, engine)
-df['logDate'] = pd.to_datetime(df['logDate']).dt.date
+new_index = pd.date_range(df.index[0].date(), df.index[len(df.index)-1].date() + timedelta(days=1), 
+                            freq = 'H', normalize=True, inclusive = 'left')
+df = df.reindex(new_index)
+for i in np.unique(df.index.date).astype('str'):
+    df.loc[i] = df.loc[i].fillna(method='ffill').fillna(method='bfill') 
 
-
-#drop today data
-select_tgl = date.today()
-df = df.loc[df['logDate'] != select_tgl]
-tanggal = np.unique(df['logDate'].values)
-j = len(tanggal)
+df = df.fillna(0)
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['pH', 'DO', 'NH4', 'NO3', 'BOD', 'COD'])
 name_param = ['pH', 'DO', 'NH4', 'NO3', 'BOD', 'COD']
-stat_data = data_anom(df_con, tgl)
-posisi_param = [0,1,5,6,9,8]
+stat_data = data_anom(df, tgl)
+posisi_param = [0,1,2,3,4,5]
 df.index = df['logDate']
 
 l_tab = [tab1, tab2, tab3, tab4, tab5, tab6]
