@@ -5,7 +5,9 @@ st.write('test ss')
 
 @st.cache_resource
 def init_connection():
-    return snowflake.connector.connect(**st.secrets['snowflake'], client_session_keep_alive=True)
+    return snowflake.connector.connect(
+        **st.secrets["snowflake"], client_session_keep_alive=True
+    )
 
 conn = init_connection()
 
