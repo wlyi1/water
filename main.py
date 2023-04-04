@@ -28,6 +28,7 @@ rows = run_query('select * from data21 where station = 11')
 
 df = pd.DataFrame(rows, columns = ['Station', 'pH', 'DO', 'Temp', 'NH4', 'NO3', 'COD', 'BOD', 'logDate', 'logTime'])
 st.write(df)
+df = df.astype({'logDate':'string', 'logTime': 'string'})
 st.write(df.dtypes)
 
 df.index = pd.DatetimeIndex(df['logDate'] + ' ' + df['logTime'])
