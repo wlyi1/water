@@ -46,7 +46,7 @@ df = df.fillna(0)
 
 def chart(data, d0,d1,param):
     dfs = data.loc[d0 : d1, param]
-    #dfs.drop(dfs.tail(1).index,inplace=True)
+    dfs.drop(dfs.tail(1).index,inplace=True)
     fig = px.line(dfs, x=[i+1 for i in range(int(len(dfs)/4))], y=[dfs.loc[dfs.index.hour.isin([0,1,2,3,4,5])], 
                                                     dfs.loc[dfs.index.hour.isin([6,7,8,9,10,11])], 
                                                     dfs.loc[dfs.index.hour.isin([12,13,14,15,16,17])],
@@ -69,7 +69,7 @@ d1 = head2.date_input('Tanggal Awal', datetime.date(2021,11,25))
 d2 = head3.date_input('Tanggal Akhir' , datetime.date(2021,11,27))
 param = head4.selectbox('Parameter:', ('pH', 'DO', 'COD', 'BOD', 'NH4', 'NO3', 'Temp'))
 dfs = df.loc[d1:d2, param]
-st.write(dfs)
+#st.write(dfs)
 
 #import data from SQL Server
 
