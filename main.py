@@ -42,7 +42,8 @@ for i in np.unique(df.index.date).astype('str'):
     df.loc[i] = df.loc[i].fillna(method='ffill').fillna(method='bfill') 
 
 df = df.fillna(0)
-    
+
+
 def chart(data, d0,d1,param):
     dfs = data.loc[d0 : d1, param]
     #dfs.drop(dfs.tail(1).index,inplace=True)
@@ -67,6 +68,8 @@ ID_choice = head1.selectbox('Stasiun', [11,12,13,14,15,16,17])
 d1 = head2.date_input('Tanggal Awal', datetime.date(2021,9,21))
 d2 = head3.date_input('Tanggal Akhir' , datetime.date(2021,9,22))
 param = head4.selectbox('Parameter:', ('pH', 'DO', 'COD', 'BOD', 'NH4', 'NO3', 'Temp'))
+dfs = df.loc[d1:d2, param]
+st.write(dfs)
 
 #import data from SQL Server
 
