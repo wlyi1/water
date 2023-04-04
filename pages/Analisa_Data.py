@@ -59,46 +59,6 @@ df = df.loc[df['logDate'] != select_tgl]
 tanggal = np.unique(df['logDate'].values)
 j = len(tanggal)
 
-#array data daily
-arr = []
-
-for i in tanggal:
-    df_tgl = df.loc[df['logDate'] == i]
-    
-    if not np.array_equiv(df_tgl['logTime'].values, data_24):
-        df_clean = df_tgl.drop_duplicates(subset='logTime', keep='last')
-        df_clean = pd.concat([df_clean, df_nan])
-        df_clean = df_clean.sort_values(by=['logTime'])
-        df_clean = df_clean.fillna(method='ffill').fillna(method='bfill')
-        df_clean = df_clean.drop_duplicates(subset='logTime', keep='last')
-        df_clean.drop(columns=df_clean.columns[-1], axis=1, inplace=True)
-        arr_clean = df_clean.to_numpy()
-        arr.append(arr_clean)
-       
-    else:
-        arr_clean = df_tgl.to_numpy()
-        arr.append(arr_clean)
-        
-arr = np.asarray(arr)
-x_arr = arr[:,:,6].flatten()   
-
-#return 1 dataframe date
-cols = df.columns.values.tolist()
-len_arr = arr.shape[0]*arr.shape[1]
-
-arr_df = arr.reshape(len_arr,14)
-df_con = pd.DataFrame(arr_df, columns = cols)
-
-df_con = df_con.set_index(df_con['logDate'])
-
-
-@st.experimental_memo
-def convert_df(df):
-   return df.to_csv(index=False).encode('utf-8')
-
-csv = convert_df(df_con)
-
-
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(['pH', 'DO', 'NH4', 'NO3', 'BOD', 'COD'])
 name_param = ['pH', 'DO', 'NH4', 'NO3', 'BOD', 'COD']
 stat_data = data_anom(df_con, tgl)
