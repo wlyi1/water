@@ -65,8 +65,8 @@ st.title('Perbandingan Data Parameter Periode Waktu (6H)')
 head1, head2, head3, head4 = st.columns(4)
 ID_choice = head1.selectbox('Stasiun', [11,12,13,14,15,16,17])
 
-d1 = head2.date_input('Tanggal Awal', datetime.date(2021,9,21))
-d2 = head3.date_input('Tanggal Akhir' , datetime.date(2021,9,22))
+d1 = head2.date_input('Tanggal Awal', datetime.date(2021,11,25))
+d2 = head3.date_input('Tanggal Akhir' , datetime.date(2021,11,27))
 param = head4.selectbox('Parameter:', ('pH', 'DO', 'COD', 'BOD', 'NH4', 'NO3', 'Temp'))
 dfs = df.loc[d1:d2, param]
 st.write(dfs)
