@@ -1,7 +1,4 @@
-import pyodbc
 import pandas as pd
-from sqlalchemy import create_engine, event
-from sqlalchemy.engine import URL
 from datetime import date
 import datetime as dt
 import numpy as np
@@ -14,7 +11,6 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from sklearn.metrics import accuracy_score   
 from sklearn.model_selection import cross_val_score
-import matplotlib.pyplot as plt
 import pickle
 from fungsi import *
 from pycaret.classification import load_model, predict_model
