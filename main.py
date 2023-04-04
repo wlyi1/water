@@ -20,5 +20,4 @@ def run_query(query):
 
 rows = run_query('select * from data21 where station = 11')
 
-for row in rows:
-    st.write(f'{row[0]}')
+st.write(rows)
