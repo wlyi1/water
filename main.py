@@ -27,7 +27,7 @@ def run_query(query):
 rows = run_query('select * from data21 where station = 11')
 
 df = pd.DataFrame(rows, columns = ['Station', 'pH', 'DO', 'Temp', 'NH4', 'NO3', 'COD', 'BOD', 'logDate', 'logTIme'])
-#st.write(data)
+st.write(data)
 
 df.index = pd.DatetimeIndex(df['logDate'] + ' ' + df['logTime'])
 df = df.drop_duplicates(subset=['logTime', 'logDate'], keep='last')
