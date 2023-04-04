@@ -45,7 +45,7 @@ df = df.fillna(0)
     
 def chart(d0,d1,param):
     dfs = df.loc[d0 : d1, param]
-    dfs.drop(dfs.tail(1).index,inplace=True)
+    #dfs.drop(dfs.tail(1).index,inplace=True)
     fig = px.line(dfs, x=[i+1 for i in range(int(len(dfs)/4))], y=[dfs.loc[dfs.index.hour.isin([0,1,2,3,4,5])], 
                                                     dfs.loc[dfs.index.hour.isin([6,7,8,9,10,11])], 
                                                     dfs.loc[dfs.index.hour.isin([12,13,14,15,16,17])],
