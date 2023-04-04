@@ -20,4 +20,4 @@ def run_query(query):
 
 rows = run_query('select * from data21 where station = 11')
 
-st.write(rows)
+st.write(pd.DataFrame(rows))
