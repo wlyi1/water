@@ -42,6 +42,8 @@ def run_query(query):
 
 st.markdown("<h1 style='text-align: center;'>Sensor Failure Detection</h>", unsafe_allow_html=True)
 
+if 'df' not in st.session_state:
+    st.session_state['df'] = df
 #import pre data
 #df = st.session_state['df']
 st.write(st.session_state.df)
