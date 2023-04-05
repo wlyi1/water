@@ -63,11 +63,11 @@ if 'df' not in st.session_state:
 
     df = df.fillna(0)
 
-    st.session_state.df = df 
+    st.session_state['df'] = df 
 
 st.title('Perbandingan Data Parameter Periode Waktu (6H)')
 
 
 
-komp = chart(st.session_state.df, d1, d2, param)
+komp = chart(st.session_state['df'], d1, d2, param)
 st.plotly_chart(komp, theme='streamlit')
