@@ -61,6 +61,7 @@ for i in np.unique(df.index.date).astype('str'):
     df.loc[i] = df.loc[i].fillna(method='ffill').fillna(method='bfill') 
 
 df = df.fillna(0)
+st.session_state['df'] = df 
 
 st.title('Perbandingan Data Parameter Periode Waktu (6H)')
 

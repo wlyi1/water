@@ -43,6 +43,7 @@ def run_query(query):
 st.markdown("<h1 style='text-align: center;'>Sensor Failure Detection</h>", unsafe_allow_html=True)
 
 #import pre data
+df = st.session_state['df']
 st.write(df)
 col_id, col_tgl = st.columns(2)
 ID = col_id.selectbox('Stasiun', [11,12,13,14,15,16,17,18])
