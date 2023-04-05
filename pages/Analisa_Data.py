@@ -43,7 +43,7 @@ def run_query(query):
 st.markdown("<h1 style='text-align: center;'>Sensor Failure Detection</h>", unsafe_allow_html=True)
 
 #import pre data
-
+st.write('haha')
 col_id, col_tgl = st.columns(2)
 ID = col_id.selectbox('Stasiun', [11,12,13,14,15,16,17,18])
 tgl = col_tgl.date_input('Tanggal' , dt.date(2022,1,2))
