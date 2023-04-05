@@ -32,7 +32,7 @@ def init_connection():
         **st.secrets["snowflake"], client_session_keep_alive=True
     )
 
-conn = init_connection()
+#conn = init_connection()
 
 @st.cache_data(ttl=600)
 def run_query(query):
@@ -42,8 +42,8 @@ def run_query(query):
 
 st.markdown("<h1 style='text-align: center;'>Sensor Failure Detection</h>", unsafe_allow_html=True)
 
-
-df = st.session_state['df']
+st.session_state['df'] = df
+#df = st.session_state['df']
 
 st.write(df)
 col_id, col_tgl = st.columns(2)
