@@ -49,7 +49,7 @@ ID = col_id.selectbox('Stasiun', [11,12,13,14,15,16,17,18])
 tgl = col_tgl.date_input('Tanggal' , dt.date(2022,1,2))
 st.write(ID)
 #import data from SQL Server
-conn = init_connection()
+#conn = init_connection()
 rows = run_query(f'select * from data21 where station = {ID}')
 
 df = pd.DataFrame(rows, columns = ['Station', 'pH', 'DO', 'NH4', 'NO3', 'COD', 'BOD', 'logDate', 'logTime'])
