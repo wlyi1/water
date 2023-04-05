@@ -47,21 +47,22 @@ param = head4.selectbox('Parameter:', ('pH', 'DO', 'COD', 'BOD', 'NH4', 'NO3', '
 
 rows = run_query(f'select * from data21 where station = {ID_choice}')
 
-df = pd.DataFrame(rows, columns = ['Station', 'pH', 'DO', 'Temp', 'NH4', 'NO3', 'COD', 'BOD', 'logDate', 'logTime'])
-df = df.astype({'logDate':'string', 'logTime': 'string'})
-
-df.index = pd.DatetimeIndex(df['logDate'] + ' ' + df['logTime'])
-df = df.drop_duplicates(subset=['logTime', 'logDate'], keep='last')
-df = df.drop(columns=['logTime', 'logDate'])
-
-new_index = pd.date_range(df.index[0].date(), df.index[len(df.index)-1].date() + timedelta(days=1), 
-                            freq = 'H', normalize=True, inclusive = 'left')
-df = df.reindex(new_index)
-for i in np.unique(df.index.date).astype('str'):
-    df.loc[i] = df.loc[i].fillna(method='ffill').fillna(method='bfill') 
-
-df = df.fillna(0)
 if 'df' not in st.session_state:
+    df = pd.DataFrame(rows, columns = ['Station', 'pH', 'DO', 'Temp', 'NH4', 'NO3', 'COD', 'BOD', 'logDate', 'logTime'])
+    df = df.astype({'logDate':'string', 'logTime': 'string'})
+
+    df.index = pd.DatetimeIndex(df['logDate'] + ' ' + df['logTime'])
+    df = df.drop_duplicates(subset=['logTime', 'logDate'], keep='last')
+    df = df.drop(columns=['logTime', 'logDate'])
+
+    new_index = pd.date_range(df.index[0].date(), df.index[len(df.index)-1].date() + timedelta(days=1), 
+                                freq = 'H', normalize=True, inclusive = 'left')
+    df = df.reindex(new_index)
+    for i in np.unique(df.index.date).astype('str'):
+        df.loc[i] = df.loc[i].fillna(method='ffill').fillna(method='bfill') 
+
+    df = df.fillna(0)
+
     st.session_state['df'] = df 
 
 st.title('Perbandingan Data Parameter Periode Waktu (6H)')
