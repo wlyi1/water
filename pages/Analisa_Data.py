@@ -42,6 +42,11 @@ def run_query(query):
 
 st.markdown("<h1 style='text-align: center;'>Sensor Failure Detection</h>", unsafe_allow_html=True)
 
+
+st.title("Projects")
+
+st.write("You have entered", st.session_state["my_input"])
+
 #st.session_state['df'] = df
 #df = st.session_state['df']
 
