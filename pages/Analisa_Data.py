@@ -42,7 +42,7 @@ def run_query(query):
 
 st.markdown("<h1 style='text-align: center;'>Sensor Failure Detection</h>", unsafe_allow_html=True)
 
-#st.session_state['df'] = df
+st.session_state['df'] = df
 #df = st.session_state['df']
 
 st.write(st.session_state['df'])
