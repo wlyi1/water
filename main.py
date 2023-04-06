@@ -38,6 +38,17 @@ def chart(data, d0,d1,param):
 
     
     return fig
+
+if "my_input" not in st.session_state:
+    st.session_state["my_input"] = ""
+
+my_input = st.text_input("Input a text here", st.session_state["my_input"])
+submit = st.button("Submit")
+if submit:
+    st.session_state["my_input"] = my_input
+    st.write("You have entered: ", my_input)
+
+
 head1, head2, head3, head4 = st.columns(4)
 ID_choice = head1.selectbox('Stasiun', [11,12,13,14,15,16,17])
 
