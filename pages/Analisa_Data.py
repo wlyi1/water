@@ -45,7 +45,7 @@ st.markdown("<h1 style='text-align: center;'>Sensor Failure Detection</h>", unsa
 
 st.title("Projects")
 
-st.write("You have entered", st.session_state["my_input"])
+st.write("You have entered", st.session_state.my_input)
 
 #st.session_state['df'] = df
 #df = st.session_state['df']
